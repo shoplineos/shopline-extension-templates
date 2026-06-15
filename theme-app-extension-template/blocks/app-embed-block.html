@@ -1,0 +1,33 @@
+<div class="app-embed-block__container" data-id="{{ block.id }}" data-type="app-embed-block">
+  <p>{{ "app_embed_block.page_title" | t() }}</p>
+  {{#if block.settings.showButton }}
+  <div class="app-embed-block__button-wrapper">
+    <div class="app-embed-block__icon">{{#component "logo-icon" /}}</div>
+    <div class="app-embed-block__button">{{ block.settings.buttonText }}</div>
+  </div>
+  {{/if}}
+</div>
+
+{{#schema}}
+{
+  "name": "t:appBlock.embed.name",
+  "target": "body",
+  "javascript": ["public/app-embed-block.js"],
+  "stylesheet": ["public/app-embed-block.css"],
+  "templates": [],
+  "settings": [
+    {
+      "type": "switch",
+      "id": "showButton",
+      "label": "t:appBlock.embed.settings.showButton.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "buttonText",
+      "label": "t:appBlock.embed.settings.buttonText.label",
+      "default": "Click Button"
+    }
+  ]
+}
+{{/schema}}
