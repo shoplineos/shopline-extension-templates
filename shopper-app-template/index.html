@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"
+    />
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <link rel="dns-prefetch" href="//cdn.myshopline.com" />
+    <link rel="stylesheet" href="./assets/css/index.css" />
+    <script src="./assets/js/index.js"></script>
+    <script src="https://cdn.myshopline.com/sl/sdk/app-custom-bridge-sdk/latest/index.min.js"></script>
+    <title>Shopper App</title>
+  </head>
+  <body>
+    <div id="container" class="container">
+      <div>hello world</div>
+    </div>
+    <script defer>
+      function notifyPageHeight() {
+        var container = document.getElementById("container");
+        var heightNotifier =
+          window.ScrollHeightNotifier ||
+          (window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.ScrollHeightNotifier);
+        var containerHeight = container ? container.offsetHeight : 0;
+
+        if (!heightNotifier) return;
+        if (heightNotifier.postMessage) {
+          heightNotifier.postMessage(
+            JSON.stringify({
+              height: Math.round(containerHeight),
+            }),
+          );
+        }
+      }
+
+      if ("ResizeObserver" in window) {
+        var container = document.getElementById("container");
+        var ob = new ResizeObserver(function () {
+          notifyPageHeight();
+        });
+        ob.observe(container);
+        window.addEventListener("pagehide", function () {
+          ob.disconnect();
+        });
+        window.addEventListener("pageshow", function () {
+          ob.observe(container);
+        });
+      } else {
+        setTimeout(notifyPageHeight, 200);
+      }
+
+      window.addEventListener("DOMContentLoaded", notifyPageHeight);
+      if (window.HideSkeleton) {
+        window.HideSkeleton.postMessage("");
+      }
+    </script>
+  </body>
+</html>
